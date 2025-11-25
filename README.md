@@ -94,9 +94,9 @@ Built using **OpenCV**, **MediaPipe**, **PyAutoGUI**, and **Pynput**.
 
 
 ## To run this
-git clone 
-python -m venv venv310
-.\venv310\Scripts\activate
-pip install -r requirements.txt
-python main.py
+- git clone https://github.com/shojib068/OpenCv-Project.git
+- python -m venv venv310
+- .\venv310\Scripts\activate
+- pip install -r requirements.txt
+- python main.py
 
