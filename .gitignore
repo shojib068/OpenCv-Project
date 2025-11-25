@@ -1,23 +1,19 @@
-# Ignore virtual environments
+# Virtual environments
 venv/
 venv310/
-ENV/
-*.env
-
-# Python cache
 __pycache__/
+
+# Python artifacts
 *.pyc
 *.pyo
 *.pyd
+*.egg-info/
+dist/
+build/
 
-# OS files
-.DS_Store
-Thumbs.db
-
-# Jupyter
+# Jupyter checkpoints
 .ipynb_checkpoints/
 
-# Build files
-build/
-dist/
-*.egg-info/
+# System files
+.DS_Store
+Thumbs.db
