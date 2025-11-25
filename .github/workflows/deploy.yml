@@ -1,73 +1,27 @@
-name: Build & Deploy Flet Web App to GitHub Pages
+name: Deploy Flet Web
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
-env:
-  PYTHON_VERSION: "3.12"
-  FLET_CLI_VERSION: "0.27.5"
-  PYTHONUTF8: 1
-  FLET_CLI_NO_RICH_OUTPUT: 1
-  UV_NO_PROGRESS: 1
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
-
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-
-    - name: Install flet-cli
-      run: |
-        python -m pip install --upgrade pip
-        pip install flet-cli==${{ env.FLET_CLI_VERSION }}
-
-    - name: Build Flet Web App
-      run: |
-        BASE_URL=${GITHUB_REPOSITORY#*/}
-        echo "Building Flet Web App with Base URL: $BASE_URL"
-        flet build web --base-url $BASE_URL --route-url-strategy hash
-
-    - name: Upload Artifact for Deployment
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: build/web
-        name: flet-web-build
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-
-    permissions:
-      pages: write
-      id-token: write
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
-
-    steps:
-    - name: Configure GitHub Pages
-      uses: actions/configure-pages@v5
-
-    - name: Deploy Flet Web App 🚀
-      id: deploy
-      uses: actions/deploy-pages@v4
-      with:
-        artifact_name: flet-web-build
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flet==0.27.5
+      - name: Build Flet Web
+        run: flet build web --base-url <repo-name> --route-url-strategy hash
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web
