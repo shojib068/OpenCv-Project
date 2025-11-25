@@ -24,7 +24,7 @@ jobs:
           pip install flet==0.27.5
 
       - name: Build Flet Web
-        run: flet build web --base-url OpenCv-Project --route-url-strategy hash
+        run: flet build web --module-name main --base-url OpenCv-Project --route-url-strategy hash
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
